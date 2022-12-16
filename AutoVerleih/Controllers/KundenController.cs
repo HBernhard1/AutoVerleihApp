@@ -157,13 +157,12 @@ namespace AutoVerleih.Controllers
                 return NotFound();
             }
 
-/* ToDO           
-            var rechnung = await _context.Rechnung.FirstOrDefaultAsync(r => r.KundenId == id);
-            if (rechnung != null)
+            var verleih = await _context.Verleih.FirstOrDefaultAsync(r => r.KundenId == id);
+            if (verleih != null)
             {
-              ViewBag.ErrorMessage = "Für diesen Kunden sind noch Rechnungen vorhanden!";
+                ViewBag.ErrorMessage = "Löschen nicht möglich, für diesen Kunden sind im Verleih Datnsätze vorhanden!";
             }
-*/
+
             return View(kunde);
         }
 

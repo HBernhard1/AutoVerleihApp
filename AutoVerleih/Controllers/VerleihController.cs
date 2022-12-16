@@ -26,28 +26,27 @@ namespace AutoVerleih.Controllers
         public VerleihController(DBProjectContext context)
         {
             _context = context;
-            if (ViewBag.VLstatus == null) ViewBag.VLstatus = "verliehen";
-
         }
 
         // GET: Verleih
-        public async Task<IActionResult> Index(string DT_From,string VLstatus)
+        public async Task<IActionResult> Index(string DT_From, bool IsOnlyShowRentCars)
         {
-            if (DT_From != null) DefaultFilter.DT_From = Convert.ToDateTime(DT_From);
-
-            if (VLstatus == "verliehen" || VLstatus == null)
+            if (Request.QueryString.HasValue)
             {
-                ViewBag.VLstatus = "verliehen";
+                DefaultFilter.DT_From = Convert.ToDateTime(DT_From);
+                DefaultFilter.IsOnlyShowRentCars = IsOnlyShowRentCars;
+            }
+            if (DefaultFilter.IsOnlyShowRentCars)
+            {
                 vl = await _context.Verleih.Where(a => a.DT_Von >= DefaultFilter.DT_From && a.DT_Rueckgabe == null).ToListAsync();
             }
             else
             {
-                ViewBag.VLstatus = "alle";
                 vl = await _context.Verleih.Where(a => a.DT_Von >= DefaultFilter.DT_From).ToListAsync();
             }
             au = await _context.Autos.ToListAsync();
             ku = await _context.Kunde.ToListAsync();
-            ViewBag.AutosVerliehen = vl.Count;
+            ViewBag.AutosVerliehen = vl.Where(a => a.DT_Rueckgabe == null).Count();
 
             IEnumerable verleihView = from v in vl
                                       join kui in ku on v.KundenId equals kui.KundenId
@@ -64,8 +63,7 @@ namespace AutoVerleih.Controllers
                 return NotFound();
             }
 
-            var verleih = await _context.Verleih
-                .FirstOrDefaultAsync(m => m.ID == id);
+            var verleih = await _context.Verleih.FirstOrDefaultAsync(m => m.ID == id);
             if (verleih == null)
             {
                 return NotFound();
@@ -79,7 +77,7 @@ namespace AutoVerleih.Controllers
         {
             ViewBag.KundenNr = KundenNr;
             //            ViewBag.ListofKunden =  _context.Kunde.Where(k => k.KundenId < 10).ToList();
-            ViewBag.ListofCars = new SelectList(_context.Autos.ToList(), "AutoId", "Type");
+            ViewBag.ListofCars = new SelectList(_context.Autos.ToList(), "AutoId", "AuswahlListe"); 
             return View();
         }
 

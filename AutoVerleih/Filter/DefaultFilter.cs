@@ -10,6 +10,6 @@ namespace AutoVerleih.Filter
         public static DateTime DT_To { get; set; }
         public static bool IncludeInactive { get; set; }
 
-        public static bool OnlyShowRentCars { get; set; }
+        public static bool IsOnlyShowRentCars { get; set; }
     }
 }

@@ -38,8 +38,15 @@
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="KundenId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        @if (@ViewBag.ErrorMessage == null)
+        {
+            <input type="hidden" asp-for="KundenId" />
+            <input type="submit" value="Delete" class="btn btn-danger" />
+        }
+        else
+        {
+            <h4 class="bg-danger">@ViewBag.ErrorMessage </h4>
+        }
         <a asp-action="Index">Back to List</a>
     </form>
 </div>

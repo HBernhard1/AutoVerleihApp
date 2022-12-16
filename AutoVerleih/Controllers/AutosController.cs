@@ -142,11 +142,16 @@ namespace AutoVerleih.Controllers
                 return NotFound();
             }
 
-            var autos = await _context.Autos
-                .FirstOrDefaultAsync(m => m.AutoId == id);
+            var autos = await _context.Autos.FirstOrDefaultAsync(m => m.AutoId == id);
             if (autos == null)
             {
                 return NotFound();
+            }
+
+            var verleih = await _context.Verleih.FirstOrDefaultAsync(r => r.AutoId == id);
+            if (verleih != null)
+            {
+                ViewBag.ErrorMessage = "Löschen nicht mgölich, für dieses Auto sind im Verleih Datnsätze vorhanden!";
             }
 
             return View(autos);

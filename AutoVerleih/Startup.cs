@@ -33,7 +33,7 @@ namespace AutoVerleih
 
             DefaultFilter.DT_From = DateTime.Today.AddDays(-10);
             DefaultFilter.DT_To = DateTime.Today.AddDays(1);
-            DefaultFilter.OnlyShowRentCars = true;
+            DefaultFilter.IsOnlyShowRentCars = true;
 
             services.AddControllersWithViews();
         }

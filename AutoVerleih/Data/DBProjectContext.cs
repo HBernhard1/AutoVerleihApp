@@ -11,10 +11,8 @@ namespace AutoVerleih.Data
 
         public DbSet<Kunden> Kunde { get; set; }
 
-        public DbSet<AutoVerleih.Models.Autos> Autos { get; set; }
+        public DbSet<Autos> Autos { get; set; }
 
-        public DbSet<AutoVerleih.Models.Verleih> Verleih { get; set; }
-//        public DbSet<Rechnung> Rechnung { get; set; }
-
+        public DbSet<Verleih> Verleih { get; set; }
     }
 }

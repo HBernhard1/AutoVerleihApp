@@ -23,5 +23,15 @@ namespace AutoVerleih.Models
 
         [NotMapped]
         public int KM_gesamt { get; set; }
+
+        [NotMapped]
+        public string AuswahlListe { 
+            get
+            {
+                return string.Format("Id: {0} / Farbe: {1} / Type: {2}", this.AutoId, this.Farbe, this.Type);
+            }
+            
+        }
+
     }
 }
