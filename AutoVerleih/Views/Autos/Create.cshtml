@@ -49,7 +49,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="Bild" class="control-label"></label>
-                <input asp-for="Bild" class="form-control" />
+                <input asp-for="Bild" class="form-control" id="imageFile" />
+                <label class="btn btn-sm btn-outline-success float-right" for="image_uploads" name="image_uploads" id="UploadButton">(Bild auswählen)</label>
+                <input type="file" name="image_uploads" id="image_uploads" accept="image/*" hidden="hidden" />
                 <span asp-validation-for="Bild" class="text-danger"></span>
             </div>
             <div class="form-group">
