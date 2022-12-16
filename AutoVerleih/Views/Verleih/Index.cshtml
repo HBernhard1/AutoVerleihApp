@@ -1,0 +1,129 @@
+﻿@model IEnumerable<AutoVerleih.ViewModels.VerleihVW>
+@using AutoVerleih.Filter
+
+@{
+    ViewData["Title"] = "Übersicht Auto-Verleih";
+}
+
+<h1>@ViewData["Title"]  - derzeit verliehen :  @ViewBag.AutosVerliehen</h1>
+
+@if (@ViewBag.kundenNr != null)
+{
+    <p>
+        <a asp-action="Create" asp-route-kundenNr="@ViewBag.kundenNr">Neuanlage Verleih für Kunde @ViewBag.KundenNr</a>
+    </p>
+}
+
+<!--
+<label for="txtTo" class="control-label">Datum Von</label>
+<input id="txtTo" type="datetime" asp-format="{0:yyyy-MM-dd}" class="form-control" value="@DefaultFilter.DT_To" name="DT_To" />
+-->
+
+
+@using (Html.BeginForm("Index", "Verleih", FormMethod.Get))
+{
+    <nav class="float-left">
+        <h6>
+            <div>
+                Verleih-Status:
+                @if (@ViewBag.VLstatus == "alle")
+                {
+                    <select name="VLstatus">
+                        <option value="alle">alle</option>
+                        <option value="verliehen">verliehen</option>
+                    </select>
+                }
+                else
+                {
+                    <select name="VLstatus">
+                        <option value="verliehen">verliehen</option>
+                        <option value="alle">alle</option>
+                    </select>
+                }
+
+                Datum Von: @Html.TextBox("DT_From", @DefaultFilter.DT_From)
+                <input class="btn btn-sm btn-success" type="submit" value="search" name="button" style="margin-bottom: 5px;" />
+            </div>
+
+        </h6>
+    </nav>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Verleih.KundenId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Kunden.Name)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Verleih.AutoId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Autos.Bild)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Autos.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Verleih.DT_Von)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Verleih.DT_Bis)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Verleih.DT_Rueckgabe)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Verleih.KM_gefahren)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Verleih.KundenId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Kunden.Name)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Verleih.AutoId)
+                </td>
+                <td>
+                    <img src="/images/@item.Autos.Bild" class="detailImage" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Autos.Type)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Verleih.DT_Von)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Verleih.DT_Bis)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Verleih.DT_Rueckgabe)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Verleih.KM_gefahren)
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Verleih.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Verleih.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Verleih.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

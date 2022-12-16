@@ -1,0 +1,68 @@
+﻿@model AutoVerleih.Models.Autos
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Autos</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Marke" class="control-label"></label>
+                <input asp-for="Marke" class="form-control" />
+                <span asp-validation-for="Marke" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <input asp-for="Type" class="form-control" />
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Farbe" class="control-label"></label>
+                <input asp-for="Farbe" class="form-control" />
+                <span asp-validation-for="Farbe" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MietPreis_HH" class="control-label"></label>
+                <input asp-for="MietPreis_HH" class="form-control" />
+                <span asp-validation-for="MietPreis_HH" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MietPreis_TG" class="control-label"></label>
+                <input asp-for="MietPreis_TG" class="form-control" />
+                <span asp-validation-for="MietPreis_TG" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MietPreis_WE" class="control-label"></label>
+                <input asp-for="MietPreis_WE" class="form-control" />
+                <span asp-validation-for="MietPreis_WE" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="vermietet" /> @Html.DisplayNameFor(model => model.vermietet)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Bild" class="control-label"></label>
+                <input asp-for="Bild" class="form-control" />
+                <span asp-validation-for="Bild" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

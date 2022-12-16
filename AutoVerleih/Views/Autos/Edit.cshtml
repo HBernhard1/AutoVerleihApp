@@ -1,0 +1,92 @@
+﻿@model AutoVerleih.Models.Autos
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Autos</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="AutoId" />
+            <div class="form-group">
+                <label asp-for="Marke" class="control-label"></label>
+                <input asp-for="Marke" class="form-control" />
+                <span asp-validation-for="Marke" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <input asp-for="Type" class="form-control" />
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Farbe" class="control-label"></label>
+                <input asp-for="Farbe" class="form-control" />
+                <span asp-validation-for="Farbe" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MietPreis_HH" class="control-label"></label>
+                <input asp-for="MietPreis_HH" class="form-control" />
+                <span asp-validation-for="MietPreis_HH" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MietPreis_TG" class="control-label"></label>
+                <input asp-for="MietPreis_TG" class="form-control" />
+                <span asp-validation-for="MietPreis_TG" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MietPreis_WE" class="control-label"></label>
+                <input asp-for="MietPreis_WE" class="form-control" />
+                <span asp-validation-for="MietPreis_WE" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="vermietet" /> @Html.DisplayNameFor(model => model.vermietet)
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Bild" class="control-label"></label>
+                <input asp-for="Bild" class="form-control" id="imageFile" />
+                <label class="btn btn-sm btn-outline-success float-right" for="image_uploads" name="image_uploads" id="UploadButton">(Bild auswählen)</label>
+                <input type="file" name="image_uploads" id="image_uploads" accept="image/*" hidden="hidden"/>
+                <span asp-validation-for="Bild" class="text-danger"></span>
+            </div>
+
+            <div>
+                <br/>
+                <div class="form-group float-left">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    @* use for input decimal Field "Betrag"*@
+    <script>
+        $.validator.methods.number = function (value, element) {
+            return this.optional(element) || /-?(?:\d+|\d{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('input[type="file"]').change(function (e) {
+                var img = e.target.files[0].name;
+                $("#imageFile").val(img);
+            });
+        });
+    </script>
+}

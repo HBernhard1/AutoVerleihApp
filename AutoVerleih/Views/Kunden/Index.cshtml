@@ -1,0 +1,91 @@
+﻿@model PagedList<AutoVerleih.Models.Kunden>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Mvc.Core.Common;
+@using X.PagedList;
+
+@using AutoVerleih.Filter
+
+@{
+    ViewData["Title"] = "Übersicht Kunden";
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+@using (Html.BeginForm("Index", "Kunden", FormMethod.Get))
+{
+    <nav class="float-left">
+        <h6>
+            Suche nach Namen : @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+            <input class="btn btn-sm btn-success" type="submit" value="search" name="button" style="margin-bottom: 5px;" />
+        </h6>
+    </nav>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Plz)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Ort)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Strasse)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().DT_AnAend)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Plz)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ort)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Strasse)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DT_AnAend)
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.KundenId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.KundenId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.KundenId">Delete</a> |
+                    <a class="btn btn-success btn-sm" asp-action="Create" asp-controller="Verleih" asp-route-kundenNr="@item.KundenId">Verleih</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<!--
+<summary class="border-top pagedsummary">
+    <div class="container float-left">
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+        @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page, currentFilter = ViewBag.CurrentFilter }),
+            new PagedListRenderOptions
+            {
+                LiElementClasses = new string[] { "page-item" },
+                PageClasses = new string[] { "page-link" }
+            })
+    </div>
+</summary>
+-->

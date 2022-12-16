@@ -1,0 +1,104 @@
+﻿@model IEnumerable<AutoVerleih.Models.Autos>
+
+@{
+    ViewData["Title"] = "Übersicht Autos";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+    @using (Html.BeginForm("Index", "Autos", FormMethod.Get))
+    {
+        <nav class="float-left">
+            <h6>
+                Suche nach Auto-Type : @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+                <input class="btn btn-sm btn-success" type="submit" value="search" name="button" style="margin-bottom: 5px;" />
+            </h6>
+        </nav>
+    }
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AutoId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bild)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Marke)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Farbe)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MietPreis_HH)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MietPreis_TG)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MietPreis_WE)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.vermietet)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.KM_gesamt)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AutoId)
+                </td>
+                <td>
+                    <img src="/images/@item.Bild" class="detailImage" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Marke)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Farbe)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MietPreis_HH)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MietPreis_TG)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MietPreis_WE)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.vermietet)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KM_gesamt)
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.AutoId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.AutoId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.AutoId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
