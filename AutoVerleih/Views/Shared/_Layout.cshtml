@@ -10,7 +10,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-warning border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AutoVerleih</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -19,34 +19,45 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1 navbar-brand">
-                        <li class="nav-item">
+                        <li class="nav-item btn-outline-light">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Kunden" asp-action="Index">KundenListe</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item btn-outline-light">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Autos" asp-action="Index">AutoListe</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item btn-outline-light">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Verleih" asp-action="Index">Verleih</a>
                         </li>
+                    </ul>
 
-
+                    <ul class="navbar-nav flex-grow-1 navbar-brand float-right">
+                        <li class="nav-item">
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                <a class="nav-link text-dark text-info" asp-area="" asp-controller="Home" asp-action="Login">Login</a>
+                            }
+                            else
+                            {
+                                <a class="nav-link text-dark text-info" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
+                            }
+                        <li class="nav-item">
                     </ul>
                 </div>
             </div>
         </nav>
         <div>
-        <!--
-                <form>
-                    <label for="From" Text="Hallo">Datum Von:</label>
-                    <input type="datetime" value="@DefaultFilter.DT_From" name="DT_From" id="From" />
-                    <input class="btn btn-sm btn-outline-success" type="submit" value="Suche" style="margin-bottom: 5px;" />
-                </form>
-        -->
+            <!--
+                    <form>
+                        <label for="From" Text="Hallo">Datum Von:</label>
+                        <input type="datetime" value="@DefaultFilter.DT_From" name="DT_From" id="From" />
+                        <input class="btn btn-sm btn-outline-success" type="submit" value="Suche" style="margin-bottom: 5px;" />
+                    </form>
+            -->
         </div>
     </header>
 
     <div class="container" id="ausgabeView">
-        <main role="main" class="pb-1">
+        <main role="main" class="pb-4">
             @RenderBody()
         </main>
     </div>

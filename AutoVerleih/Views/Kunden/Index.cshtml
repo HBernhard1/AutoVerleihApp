@@ -14,18 +14,24 @@
     <a asp-action="Create">Create New</a>
 </p>
 
-@using (Html.BeginForm("Index", "Kunden", FormMethod.Get))
+@using (Html.BeginForm("Index", "Kunden", FormMethod.Post))
 {
     <nav class="float-left">
         <h6>
-            Suche nach Namen : @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
-            <input class="btn btn-sm btn-success" type="submit" value="search" name="button" style="margin-bottom: 5px;" />
+            Suche nach Namen : <input type="text" name="searchString" value="@ViewBag.CurrentFilter" />
+            Anzahl pro Seite : <input type="text" name="anzLine" value="@ViewBag.AnzLine" />
+
+            <input class="btn btn-xsm btn-success" type="submit" value="search" name="button" style="margin-bottom: 5px;" />
         </h6>
     </nav>
 }
-<table class="table">
-    <thead>
+
+<table class="table table-bordered table-hover">
+    <thead id="tableHeader">
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.First().KundenId)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.First().Name)
             </th>
@@ -49,6 +55,9 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KundenId)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
@@ -75,17 +84,26 @@
         }
     </tbody>
 </table>
-<br />
-<!--
-<summary class="border-top pagedsummary">
-    <div class="container float-left">
-        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-        @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page, currentFilter = ViewBag.CurrentFilter }),
-            new PagedListRenderOptions
-            {
-                LiElementClasses = new string[] { "page-item" },
-                PageClasses = new string[] { "page-link" }
-            })
-    </div>
-</summary>
--->
+
+<div class="pagedList">
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page, currentFilter = ViewBag.CurrentFilter, anzLine = ViewBag.AnzLine }),
+        new PagedListRenderOptions
+        {
+            LiElementClasses = new string[] { "page-item" },
+            PageClasses = new string[] { "page-link" }
+        })
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+   //         $("#clientScreenHeight").val($(window).height());
+   //         alert("ende" + $(window).height());
+        });
+    </script>
+
+
+}

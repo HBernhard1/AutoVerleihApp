@@ -20,12 +20,10 @@
             </div>
             <div class="form-group">
                 <label asp-for="AutoId" class="control-label"></label>
-                <select asp-for="AutoId" class="form-control" asp-items="ViewBag.ListofCars">
-                    <option value="NOTSEL">Bitte auswählen</option>
-                </select>
-
+                    <select asp-for="AutoId" class="form-control" asp-items="Model.SelectAutos">
+                        <option selected>---Select Employee---</option>
+                    </select>
                 <span asp-validation-for="AutoId" class="text-danger"></span>
-
             </div>
             <div class="form-group">
                 <label asp-for="DT_Von" class="control-label"></label>
@@ -43,6 +41,7 @@
                 <span asp-validation-for="DT_Rueckgabe" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <h4 class="bg-danger">@ViewBag.ErrorMessage </h4>
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>

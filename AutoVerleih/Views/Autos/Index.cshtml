@@ -10,19 +10,21 @@
     <a asp-action="Create">Create New</a>
 </p>
 
-    @using (Html.BeginForm("Index", "Autos", FormMethod.Get))
-    {
-        <nav class="float-left">
-            <h6>
-                Suche nach Auto-Type : @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
-                <input class="btn btn-sm btn-success" type="submit" value="search" name="button" style="margin-bottom: 5px;" />
-            </h6>
-        </nav>
-    }
+@using (Html.BeginForm("Index", "Autos", FormMethod.Get))
+{
+    <nav class="float-left">
+        <h6>
+            Suche nach Auto-Type : @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+            <input class="btn btn-sm btn-success" type="submit" value="search" name="button" style="margin-bottom: 5px;" />
+<!--
+    <input hidden class="btn btn-sm btn-success" id="idButton" type="button"  onclick="rand();" value="search" />
+-->
+        </h6>
+    </nav>
+}
 
-
-<table class="table">
-    <thead>
+<table class="table table-bordered table-hover">
+    <thead id="tableHeader">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.AutoId)
@@ -102,3 +104,24 @@
         }
     </tbody>
 </table>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        function rand() {
+            alert("Hallo from rand");
+        };
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#idButton_xxx").click(function () {
+                $(this).hide();
+                alert("Button press");
+            });
+        });
+    </script>
+}

@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AutoVerleih.Models;
-using System.Collections;
 using X.PagedList;
 using AutoVerleih.Data;
 using AutoVerleih.Filter;
-using Newtonsoft.Json.Linq;
+using Microsoft.CodeAnalysis;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AutoVerleih.Controllers
 {
+    [Authorize]
     public class KundenController : Controller
     {
         private readonly DBProjectContext _context;
@@ -22,30 +23,42 @@ namespace AutoVerleih.Controllers
         {
             _context = context;
         }
-
+         
         // GET: Kunden
-        //         public async Task<IActionResult> Index(string currentFilter, DefaultFilter filter, int? page)
-        public async Task<IActionResult> Index(string button, string currentFilter, string searchString, int? page)
+        public async Task<IActionResult> Index(string button, string currentFilter, string searchString, string currentScreen, int? page, int anzLine)
         {
-//            Request.Form.TryGetValue("DT_X", out var xyz);
+            if (anzLine == 0) anzLine = DefaultFilter.AnzLine;
 
-            IEnumerable <Kunden> kunden = Enumerable.Empty<Kunden>();
+            if (!HttpContext.Request.Cookies.ContainsKey("first_request"))
+            {
+
+                HttpContext.Response.Cookies.Append("first_request", DateTime.Now.ToString());
+//                return Content("Welcome, new visitor!");
+            }
+            else
+            {
+                DateTime firstRequest = DateTime.Parse(HttpContext.Request.Cookies["first_request"]);
+            }
+
+            if (!String.IsNullOrEmpty(currentFilter) && String.IsNullOrEmpty(searchString)) searchString = currentFilter;
+            IEnumerable<Kunden> kunden = Enumerable.Empty<Kunden>();
+
             if (!String.IsNullOrEmpty(searchString))
             {
-                page = 1;
                 kunden = await _context.Kunde.Where(s => s.Name.Contains(searchString)).ToListAsync();       
             }
             else
             {
-                page = 1;
                 searchString = currentFilter;
                 kunden = await _context.Kunde.OrderByDescending(s => s.KundenId).Take(10).ToListAsync();
             }
-            ViewBag.CurrentFilter = searchString;
 
-            // IList test3 = _context.Kunde.Local.ToList();
-            // return View(test3);
-            int pageSize = 20;
+            //            var xx = kunden.FirstOrDefault(a => a.Verleihs.Count > 0);
+
+            ViewBag.CurrentFilter = searchString;
+            ViewBag.AnzLine = anzLine;
+
+            int pageSize = anzLine;
             int pageNumber = (page ?? 1);
             return View(kunden.ToPagedList(pageNumber, pageSize));
         }
@@ -79,7 +92,7 @@ namespace AutoVerleih.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("KundenId,Name,Plz,Ort,Adresse")] Kunden kunde)
+        public async Task<IActionResult> Create([Bind("KundenId,Name,Plz,Ort,Strasse")] Kunden kunde)
         {
             if (ModelState.IsValid)
             {
@@ -111,7 +124,7 @@ namespace AutoVerleih.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("KundenId,Name,Plz,Ort,Adresse")] Kunden kunde)
+        public async Task<IActionResult> Edit(int id, [Bind("KundenId,Name,Plz,Ort,Strasse")] Kunden kunde)
         {
             var xx = DefaultFilter.DT_From;
             

@@ -14,5 +14,7 @@ namespace AutoVerleih.Data
         public DbSet<Autos> Autos { get; set; }
 
         public DbSet<Verleih> Verleih { get; set; }
+
+        public DbSet<Accounts> Accounts { get; set; }
     }
 }

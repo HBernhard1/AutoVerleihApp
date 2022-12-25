@@ -12,9 +12,14 @@ using System.Text;
 using AutoVerleih.ViewModels;
 using AutoVerleih.Filter;
 using Microsoft.AspNetCore.Mvc.Localization;
+using Newtonsoft.Json.Linq;
+using static System.Net.Mime.MediaTypeNames;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AutoVerleih.Controllers
 {
+    [Authorize]
     public class VerleihController : Controller
     {
         List<Autos> au = new List<Autos>();
@@ -73,12 +78,16 @@ namespace AutoVerleih.Controllers
         }
 
         // GET: Verleih/Create
-        public IActionResult Create (int KundenNr)
+        public async Task<IActionResult> Create(int KundenNr)
         {
-            ViewBag.KundenNr = KundenNr;
-            //            ViewBag.ListofKunden =  _context.Kunde.Where(k => k.KundenId < 10).ToList();
-            ViewBag.ListofCars = new SelectList(_context.Autos.ToList(), "AutoId", "AuswahlListe"); 
-            return View();
+            var verleih = new Verleih();
+            verleih.KundenId = KundenNr;
+            verleih.DT_Von = DateTime.Today;
+            
+            ViewBag.KundenNr = verleih.KundenId;
+            verleih.SelectAutos = await CreateSelList();
+
+            return View(verleih);
         }
 
         // POST: Verleih/Create
@@ -88,12 +97,19 @@ namespace AutoVerleih.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,KundenId,AutoId,DT_Von,DT_Bis,DT_Rueckgabe,KM_gefahren")] Verleih verleih)
         {
-            if (ModelState.IsValid)
+            if (verleih.AutoId == 0 )
+            {
+                ViewBag.ErrorMessage = "Es wurde keine Auto ausgewählt, bitte auswählen!";
+            }
+            else if (ModelState.IsValid)
             {
                 _context.Add(verleih);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.KundenNr = verleih.KundenId;
+            verleih.SelectAutos = await CreateSelList();
+
             return View(verleih);
         }
 
@@ -181,5 +197,36 @@ namespace AutoVerleih.Controllers
         {
             return _context.Verleih.Any(e => e.ID == id);
         }
+
+        private async Task<List<SelectListItem>> CreateSelList()
+        {
+            au = await _context.Autos.ToListAsync();
+            List<SelectListItem> autoList = new List<SelectListItem>();
+            autoList.AddRange(au.Select(a => new SelectListItem() { Value = a.AutoId.ToString(), Text = a.AuswahlListe }).ToList());
+
+            return autoList;
+        }
+
+        public async Task<IActionResult> Calendar(int? id)
+        {
+            /*
+                        if (id == null)
+                        {
+                            return NotFound();
+                        }
+
+                        var verleih = await _context.Verleih
+                            .FirstOrDefaultAsync(m => m.ID == id);
+                        if (verleih == null)
+                        {
+                            return NotFound();
+                        }
+            */
+
+            var verleih = await _context.Verleih.ToListAsync();
+            return View(verleih);
+        }
+
+
     }
 }

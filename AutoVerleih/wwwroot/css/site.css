@@ -22,7 +22,7 @@ a {
   border-color: #1861ac;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+.nav-pills .nav-link.active, .nav-pills .show .nav-link {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
@@ -64,7 +64,7 @@ html {
 
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 60px;
+  margin-bottom: 20px;
 }
 .footer {
   position: absolute;
@@ -84,6 +84,11 @@ body {
 */
 }
 
+#tableHeader {
+    background-color: aquamarine;
+}
+    
+
 .detailImage {
     width: 60px;
     height: 40px;
@@ -91,4 +96,10 @@ body {
 
 #UploadButton {
    /* background-color: plum; */
+}
+
+.pagedList {
+    position: fixed;
+    bottom: 50px;
+    height:20px;
 }

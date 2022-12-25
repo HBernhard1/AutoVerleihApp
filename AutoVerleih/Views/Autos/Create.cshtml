@@ -69,18 +69,15 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     @* use for input decimal Field "Betrag"*@
-    <script>
         $.validator.methods.number = function (value, element) {
             return this.optional(element) || /-?(?:\d+|\d{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
         }
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            $('input[type="file"]').change(function (e) {
-                var img = e.target.files[0].name;
-                $("#imageFile").val(img);
-            });
+<script>
+    $(document).ready(function () {
+        $('input[type="file"]').change(function (e) {
+            var img = e.target.files[0].name;
+            $("#imageFile").val(img);
         });
-    </script>
+    });
+</script>
 }

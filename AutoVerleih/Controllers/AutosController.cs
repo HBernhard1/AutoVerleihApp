@@ -10,9 +10,11 @@ using AutoVerleih.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections;
 using X.PagedList;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AutoVerleih.Controllers
 {
+    [Authorize]
     public class AutosController : Controller
     {
         private readonly DBProjectContext _context;
@@ -21,7 +23,7 @@ namespace AutoVerleih.Controllers
         {
             _context = context;
         }
-
+      
         // GET: Autos
         public async Task<IActionResult> Index(string currentFilter, string searchString)
         {
