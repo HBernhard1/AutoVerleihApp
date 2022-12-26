@@ -8,13 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using AutoVerleih.Data;
 using AutoVerleih.Models;
 using System.Collections;
-using System.Text;
 using AutoVerleih.ViewModels;
 using AutoVerleih.Filter;
-using Microsoft.AspNetCore.Mvc.Localization;
-using Newtonsoft.Json.Linq;
-using static System.Net.Mime.MediaTypeNames;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.AspNetCore.Authorization;
 
 namespace AutoVerleih.Controllers

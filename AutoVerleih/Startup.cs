@@ -31,7 +31,7 @@ namespace AutoVerleih
             services.AddDbContext<DBProjectContext>(options =>
                      options.UseSqlServer(Configuration.GetConnectionString("DBFerchau")));
             
-            DefaultFilter.DT_From = DateTime.Today.AddDays(-7);
+            DefaultFilter.DT_From = DateTime.Today.AddDays(-12);
             DefaultFilter.DT_To = DateTime.Today.AddDays(1);
             DefaultFilter.IsOnlyShowRentCars = true;
             DefaultFilter.AnzLine = 6;
